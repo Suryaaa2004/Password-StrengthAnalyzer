@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Password Strength Result</h1>
+        <p><strong>Password:</strong> {{ password }}</p>
+        <p><strong>Message:</strong> {{ message }}</p>
+
+        {% if is_blacklisted %}
+        <div style="color: red; font-weight: bold; margin-top: 10px;">
+            ❌ This password is too common. Avoid using it.
+        </div>
+        {% endif %}
+
+        <div class="strength-meter">
+            <div id="strength-bar" class="bar"></div>
+        </div>
+
+        <a href="/">🔁 Try another password</a>
+    </div>
+
+    <!-- Inject score as JSON -->
+    <script id="score-data" type="application/json">
+        {{ score | tojson | safe }}
+    </script>
+
+    <script>
+        function setStrengthBar(score) {
+            const bar = document.getElementById("strength-bar");
+            if (!bar) return;
+
+            const colors = ["red", "orange", "gold", "green", "darkgreen"];
+            const widths = ["20%", "40%", "60%", "80%", "100%"];
+
+            if (score >= 0 && score < colors.length) {
+                bar.style.width = widths[score];
+                bar.style.backgroundColor = colors[score];
+            }
+        }
+
+        window.onload = function () {
+            const score = JSON.parse(document.getElementById("score-data").textContent);
+            setStrengthBar(score);
+        };
+    </script>
+</body>
+</html>

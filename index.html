@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Password Strength Checker</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Password Strength Checker</h1>
+        <form action="/check" method="post">
+            <input type="password" name="password" placeholder="Enter your password" required>
+            <button type="submit">Check Strength</button>
+        </form>
+
+        <hr>
+        <h3>Generate a Secure Password</h3>
+        <label for="length">Length: </label>
+        <input type="number" id="length" value="12" min="8" max="64">
+        <br>
+        <label><input type="checkbox" id="includeSymbols" checked> Include Symbols</label>
+        <label><input type="checkbox" id="includeNumbers" checked> Include Numbers</label>
+        <label><input type="checkbox" id="includeUppercase" checked> Include Uppercase</label>
+        <br>
+        <button type="button" onclick="generatePassword()">Generate Password</button>
+        <br><br>
+        <input type="text" id="generatedPassword" readonly style="width: 100%; padding: 8px;">
+    </div>
+
+    <script>
+        function generatePassword() {
+            const length = parseInt(document.getElementById("length").value);
+            const includeSymbols = document.getElementById("includeSymbols").checked;
+            const includeNumbers = document.getElementById("includeNumbers").checked;
+            const includeUppercase = document.getElementById("includeUppercase").checked;
+
+            const lower = "abcdefghijklmnopqrstuvwxyz";
+            const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const numbers = "0123456789";
+            const symbols = "!@#$%^&*()_+~`|}{[]\\:;?><,./-=";
+
+            let charset = lower;
+            if (includeUppercase) charset += upper;
+            if (includeNumbers) charset += numbers;
+            if (includeSymbols) charset += symbols;
+
+            let password = "";
+            for (let i = 0; i < length; i++) {
+                password += charset.charAt(Math.floor(Math.random() * charset.length));
+            }
+
+            document.getElementById("generatedPassword").value = password;
+        }
+    </script>
+</body>
+</html>
