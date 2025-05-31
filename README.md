@@ -10,12 +10,6 @@ This web application is designed to help users evaluate the strength of their pa
 - ✅ Clean and responsive UI
 
 
-
- Demo
-
-![Password Strength Result Screenshot](screenshot.png)
-
-
  Tech Stack
 
 - **Backend**: Python, Flask
